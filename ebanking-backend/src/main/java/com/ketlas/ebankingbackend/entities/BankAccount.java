@@ -15,6 +15,7 @@ import java.util.List;
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type",length = 2,discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("CC")
 public class BankAccount {
 
     @Id
