@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Customer} from "../model/customer.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class CustomerService {
   ngOnInit(): void {
 
   }
-  getCustomers():Observable<any>{
-    return this.http.get(this.baseUrl+"customers");
+  getCustomers():Observable<Array<Customer>>{
+    return this.http.get<Array<Customer>>(this.baseUrl+"customers");
   }
 
 }

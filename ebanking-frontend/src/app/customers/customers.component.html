@@ -5,12 +5,12 @@
     {{errorMessage}}
   </div>
 
-  <div class="card">
+  <div class="card" *ngIf="customers | async">
     <div class="card-header">
       Customers
     </div>
 
-    <div class="card-body" *ngIf="customers">
+    <div class="card-body" >
       <table class="table table-striped table-bordered">
 
         <thead>
@@ -22,7 +22,7 @@
         </thead>
 
         <tbody>
-        <tr *ngFor="let customer of customers">
+        <tr *ngFor="let customer of customers | async">
 
           <td>{{customer.id}}</td>
           <td>{{customer.name}}</td>
