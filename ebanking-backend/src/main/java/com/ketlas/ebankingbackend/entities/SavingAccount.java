@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@DiscriminatorValue("CA")
-public class CurrentBankAccount extends BankAccount{
-    private double overDraft;
+@DiscriminatorValue("SA")
+public class SavingAccount extends BankAccount{
+    private double interestRate;
 }

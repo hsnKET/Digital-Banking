@@ -48,10 +48,10 @@ public class EbankingBackendApplication {
             for (BankAccount bankAccount:bankAccounts){
                 for (int i = 0; i <10 ; i++) {
                     String accountId;
-                    if(bankAccount instanceof SavingBankAccount){
-                        accountId=((SavingBankAccount) bankAccount).getId();
+                    if(bankAccount instanceof SavingAccount){
+                        accountId=((SavingAccount) bankAccount).getId();
                     } else{
-                        accountId=((CurrentBankAccount) bankAccount).getId();
+                        accountId=((CurrentAccount) bankAccount).getId();
                     }
                     bankAccountService.credit(accountId,10000+Math.random()*120000,"Credit");
                     bankAccountService.debit(accountId,1000+Math.random()*9000,"Debit");
@@ -74,7 +74,7 @@ public class EbankingBackendApplication {
             });
 
             customerRepository.findAll().forEach(cust->{
-                CurrentBankAccount currentAccount=new CurrentBankAccount();
+                CurrentAccount currentAccount=new CurrentAccount();
                 currentAccount.setId(UUID.randomUUID().toString());
                 currentAccount.setBalance(Math.random()*90000);
                 currentAccount.setCreatedAt(new Date());
@@ -83,7 +83,7 @@ public class EbankingBackendApplication {
                 currentAccount.setOverDraft(9000);
                 bankAccountRepository.save(currentAccount);
 
-                SavingBankAccount savingAccount=new SavingBankAccount();
+                SavingAccount savingAccount=new SavingAccount();
                 savingAccount.setId(UUID.randomUUID().toString());
                 savingAccount.setBalance(Math.random()*90000);
                 savingAccount.setCreatedAt(new Date());

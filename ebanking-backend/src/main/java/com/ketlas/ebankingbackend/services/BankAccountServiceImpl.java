@@ -43,7 +43,7 @@ public class BankAccountServiceImpl implements BankAccountService {
             throw new  CustomerNotFoundException("Customer not found exception");
         }
 
-        CurrentBankAccount bankAccount  = new CurrentBankAccount();
+        CurrentAccount bankAccount  = new CurrentAccount();
         bankAccount.setId(UUID.randomUUID().toString());
         bankAccount.setOverDraft(overDraft);
         bankAccount.setBalance(initialBalance);
@@ -60,7 +60,7 @@ public class BankAccountServiceImpl implements BankAccountService {
             throw new  CustomerNotFoundException("Customer not found exception");
         }
 
-        SavingBankAccount bankAccount  = new SavingBankAccount();
+        SavingAccount bankAccount  = new SavingAccount();
         bankAccount.setId(UUID.randomUUID().toString());
         bankAccount.setInterestRate(interestRate);
         bankAccount.setBalance(initialBalance);
