@@ -1,9 +1,13 @@
 package com.ketlas.ebankingbackend;
 
+import com.ketlas.ebankingbackend.dtos.BankAccountDTO;
+import com.ketlas.ebankingbackend.dtos.CurrentBankAccountDTO;
+import com.ketlas.ebankingbackend.dtos.SavingBankAccountDTO;
 import com.ketlas.ebankingbackend.entities.*;
 import com.ketlas.ebankingbackend.enums.AccountStatus;
 import com.ketlas.ebankingbackend.enums.OperationType;
 import com.ketlas.ebankingbackend.exceptions.CustomerNotFoundException;
+import com.ketlas.ebankingbackend.mappers.BankAccountMapperImpl;
 import com.ketlas.ebankingbackend.repositories.AccountOperationRepository;
 import com.ketlas.ebankingbackend.repositories.BankAccountRepository;
 import com.ketlas.ebankingbackend.repositories.CustomerRepository;
@@ -26,13 +30,14 @@ public class EbankingBackendApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(BankAccountService bankAccountService){
+    CommandLineRunner commandLineRunner(BankAccountService bankAccountService,
+                                        BankAccountMapperImpl bankAccountMapper){
         return args -> {
             Stream.of("yasin","jamal","yasmin").forEach(name->{
                 Customer customer=new Customer();
                 customer.setName(name);
                 customer.setEmail(name+"@gmail.com");
-                bankAccountService.saveCustomer(customer);
+                bankAccountService.saveCustomer(bankAccountMapper.fromCustomer(customer));
             });
 
             bankAccountService.listCustomers().forEach(customer->{
@@ -44,14 +49,15 @@ public class EbankingBackendApplication {
                     e.printStackTrace();
                 }
             });
-            List<BankAccount> bankAccounts = bankAccountService.bankAccountList();
-            for (BankAccount bankAccount:bankAccounts){
+            List<BankAccountDTO> bankAccounts = bankAccountService.bankAccountList();
+
+            for (BankAccountDTO bankAccount:bankAccounts){
                 for (int i = 0; i <10 ; i++) {
                     String accountId;
-                    if(bankAccount instanceof SavingAccount){
-                        accountId=((SavingAccount) bankAccount).getId();
+                    if(bankAccount instanceof SavingBankAccountDTO){
+                        accountId=((SavingBankAccountDTO) bankAccount).getId();
                     } else{
-                        accountId=((CurrentAccount) bankAccount).getId();
+                        accountId=((CurrentBankAccountDTO) bankAccount).getId();
                     }
                     bankAccountService.credit(accountId,10000+Math.random()*120000,"Credit");
                     bankAccountService.debit(accountId,1000+Math.random()*9000,"Debit");
@@ -61,7 +67,7 @@ public class EbankingBackendApplication {
     }
 
 
-    @Bean
+    //@Bean
     CommandLineRunner start(CustomerRepository customerRepository,
                             BankAccountRepository bankAccountRepository,
                             AccountOperationRepository accountOperationRepository){

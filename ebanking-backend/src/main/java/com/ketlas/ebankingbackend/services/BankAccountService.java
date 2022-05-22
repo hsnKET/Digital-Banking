@@ -1,9 +1,6 @@
 package com.ketlas.ebankingbackend.services;
 
-import com.ketlas.ebankingbackend.dtos.BankAccountDTO;
-import com.ketlas.ebankingbackend.dtos.CurrentBankAccountDTO;
-import com.ketlas.ebankingbackend.dtos.CustomerDTO;
-import com.ketlas.ebankingbackend.dtos.SavingBankAccountDTO;
+import com.ketlas.ebankingbackend.dtos.*;
 import com.ketlas.ebankingbackend.entities.BankAccount;
 import com.ketlas.ebankingbackend.entities.Customer;
 import com.ketlas.ebankingbackend.exceptions.BalanceNotSufficientException;
@@ -30,4 +27,6 @@ public interface BankAccountService {
     CustomerDTO updateCustomer(CustomerDTO customerDTO);
 
     void deleteCustomer(Long customerId);
+
+    List<AccountOperationDTO> accountHistory(String accountId);
 }
