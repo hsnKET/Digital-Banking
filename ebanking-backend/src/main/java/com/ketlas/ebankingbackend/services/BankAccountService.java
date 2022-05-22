@@ -1,5 +1,9 @@
 package com.ketlas.ebankingbackend.services;
 
+import com.ketlas.ebankingbackend.dtos.BankAccountDTO;
+import com.ketlas.ebankingbackend.dtos.CurrentBankAccountDTO;
+import com.ketlas.ebankingbackend.dtos.CustomerDTO;
+import com.ketlas.ebankingbackend.dtos.SavingBankAccountDTO;
 import com.ketlas.ebankingbackend.entities.BankAccount;
 import com.ketlas.ebankingbackend.entities.Customer;
 import com.ketlas.ebankingbackend.exceptions.BalanceNotSufficientException;
@@ -10,14 +14,20 @@ import java.util.List;
 
 public interface BankAccountService {
 
-    Customer saveCustomer(Customer customer);
-    BankAccount saveCurrentBankAccount(double initialBalance,double overDraft,Long customerId) throws CustomerNotFoundException;
-    BankAccount saveSavingBankAccount(double initialBalance,double interestRate,Long customerId) throws CustomerNotFoundException;
-    List<Customer> listCustomers();
-    BankAccount getBankAccount(String accountId) throws BankAccountNotFoundException;
+    CustomerDTO saveCustomer(CustomerDTO customerDTO );
+    CurrentBankAccountDTO saveCurrentBankAccount(double initialBalance, double overDraft, Long customerId) throws CustomerNotFoundException;
+    SavingBankAccountDTO saveSavingBankAccount(double initialBalance, double interestRate, Long customerId) throws CustomerNotFoundException;
+    List<CustomerDTO> listCustomers();
+    BankAccountDTO getBankAccount(String accountId) throws BankAccountNotFoundException;
     void debit(String accountId, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientException;
     void credit(String accountId, double amount, String description) throws BalanceNotSufficientException, BankAccountNotFoundException;
     void transfer(String accountIdSource, String accountIdDestination, double amount) throws BankAccountNotFoundException, BalanceNotSufficientException;
 
-    List<BankAccount> bankAccountList();
+    abstract List<BankAccountDTO> bankAccountList();
+
+    CustomerDTO getCustomer(Long customerId) throws CustomerNotFoundException;
+
+    CustomerDTO updateCustomer(CustomerDTO customerDTO);
+
+    void deleteCustomer(Long customerId);
 }

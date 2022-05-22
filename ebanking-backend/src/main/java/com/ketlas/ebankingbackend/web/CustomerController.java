@@ -1,6 +1,7 @@
 package com.ketlas.ebankingbackend.web;
 
 
+import com.ketlas.ebankingbackend.dtos.CustomerDTO;
 import com.ketlas.ebankingbackend.entities.Customer;
 import com.ketlas.ebankingbackend.services.BankAccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class CustomerController {
     private BankAccountService bankAccountService;
 
     @GetMapping("/customers")
-    List<Customer> listCustomers(){
+    List<CustomerDTO> listCustomers(){
         return bankAccountService.listCustomers();
     }
 
