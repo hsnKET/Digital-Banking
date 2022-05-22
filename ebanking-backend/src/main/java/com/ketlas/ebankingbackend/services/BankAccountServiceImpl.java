@@ -13,6 +13,8 @@ import com.ketlas.ebankingbackend.repositories.BankAccountRepository;
 import com.ketlas.ebankingbackend.repositories.CustomerRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -183,5 +185,30 @@ public class BankAccountServiceImpl implements BankAccountService {
         return accountOperations.stream()
                 .map(accountOperation -> bankAccountMapper.fromAccountOperation(accountOperation))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException {
+
+        BankAccount bankAccount=bankAccountRepository.findById(accountId).orElse(null);
+        if(bankAccount==null) throw new BankAccountNotFoundException("Account not Found");
+
+        Page<AccountOperation> accountOperationPage =
+                accountOperationRepository
+                        .findByBankAccountIdOrderByOperationDateDesc(accountId,PageRequest.of(page,size));
+
+        AccountHistoryDTO accountHistoryDTO=new AccountHistoryDTO();
+        List<AccountOperationDTO> accountOperationDTOS = accountOperationPage.getContent()
+                .stream()
+                .map(accountOperation -> bankAccountMapper.fromAccountOperation(accountOperation)).collect(Collectors.toList());
+
+        accountHistoryDTO.setAccountOperationDTOS(accountOperationDTOS);
+        accountHistoryDTO.setAccountId(accountId);
+        accountHistoryDTO.setBalance(bankAccount.getBalance());
+        accountHistoryDTO.setCurrentPage(page);
+        accountHistoryDTO.setPageSize(size);
+        accountHistoryDTO.setTotalPages(accountHistoryDTO.getTotalPages());
+
+        return accountHistoryDTO;
     }
 }
