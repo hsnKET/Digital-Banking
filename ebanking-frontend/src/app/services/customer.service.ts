@@ -18,4 +18,14 @@ export class CustomerService {
     return this.http.get<Array<Customer>>(this.baseUrl+"customers");
   }
 
+  searchCustomers(keyword:String):Observable<Array<Customer>>{
+    return this.http
+      .get<Array<Customer>>(this.baseUrl+"customers/search?keyword="+keyword);
+  }
+
+  saveCustomers(customer:Customer):Observable<Customer>{
+    return this.http
+      .post<Customer>(this.baseUrl+"customers/",customer);
+  }
+
 }
