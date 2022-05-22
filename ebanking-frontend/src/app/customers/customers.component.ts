@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {CustomerService} from "../services/customer.service";
 import {catchError, Observable, throwError} from "rxjs";
 import {Customer} from "../model/customer.model";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-customers',
@@ -13,6 +14,8 @@ export class CustomersComponent implements OnInit {
 
   customers !: Observable<Array<Customer>>;
   errorMessage !: string;
+  formGroup !:FormGroup;
+
 
   constructor(private customerService:CustomerService) {
 
