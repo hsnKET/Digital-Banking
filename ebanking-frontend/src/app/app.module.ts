@@ -8,6 +8,7 @@ import { CustomersComponent } from './customers/customers.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
+import { CustomerFormComponent } from './customer-form/customer-form.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     NavbarComponent,
     CustomersComponent,
     AccountsComponent,
+    CustomerFormComponent,
   ],
   imports: [
     BrowserModule,
