@@ -1,1 +1,42 @@
-<p>accounts works!</p>
+<div class="container mt-2">
+  <div class="row">
+    <div class="col col-md-6">
+      <div class="card">
+        <div class="card-header">Accounts</div>
+        <div class="card-body">
+          <form [formGroup]="accountFormGroup" (ngSubmit)="searchAccountByID()">
+            <div class="input-group">
+              <label class="input-group-text">Account Id :</label>
+              <input type="text" formControlName="accountId" class="form-control">
+              <button class="btn btn-info">
+                <i class="bi bi-search"></i>
+                Search
+              </button>
+            </div>
+          </form>
+
+          <ng-container *ngIf="accountObservable | async as accountDetails">
+            <table class="table table table-bordered mt-2">
+                <thead>
+                  <tr>
+                    <th scope="col">Account ID</th>
+                    <th scope="col">Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{accountDetails.accountId}}</td>
+                    <td>{{accountDetails.balance | number : '1.2-2'}}</td>
+                  </tr>
+                </tbody>
+            </table>
+          </ng-container>
+
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

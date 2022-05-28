@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
 import {CustomerService} from "../services/customer.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-customer',
@@ -13,7 +14,8 @@ export class NewCustomerComponent implements OnInit {
   successMessage!: string;
   errorMessage!: string;
   constructor(private formBuilder:FormBuilder,
-              private customerService:CustomerService) {
+              private customerService:CustomerService,
+              private router:Router) {
 
     this.formGroup = formBuilder.group(
       {
@@ -35,6 +37,7 @@ export class NewCustomerComponent implements OnInit {
       .subscribe({
         next:(data)=>{
           this.successMessage = "Customer has been added Successfully!"
+          this.router.navigateByUrl("/customers");
         },
         error:(err)=>{
           this.errorMessage = err.message;
