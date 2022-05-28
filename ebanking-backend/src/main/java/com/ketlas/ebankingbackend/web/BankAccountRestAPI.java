@@ -55,5 +55,12 @@ public class BankAccountRestAPI {
         return creditDTO;
     }
 
+    @PostMapping("/accounts/transfer")
+    public void transfer(@RequestBody TransferRequestDTO transferRequestDTO) throws BankAccountNotFoundException, BalanceNotSufficientException {
+        this.bankAccountService.transfer(
+                transferRequestDTO.getAccountSource(),
+                transferRequestDTO.getAccountDestination(),
+                transferRequestDTO.getAmount());
+    }
 
 }

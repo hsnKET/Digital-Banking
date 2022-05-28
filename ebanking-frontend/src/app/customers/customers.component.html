@@ -16,7 +16,7 @@
           <div class="input-group">
               <label class="input-group-text">Search :</label>
               <input class="form-control" type="text" formControlName="keyword">
-              <button class="btn btn-primary">
+              <button class="btn btn-info">
                 <i class="bi bi-search"></i>
               </button>
           </div>
@@ -42,6 +42,10 @@
           <td >
             <button class=" border-0 rounded-pill bg-info " (click)="deleteCustomer(customer)">
               <i class="bi bi-trash-fill text-danger h5"></i>
+            </button>
+
+            <button class=" border-0 rounded-pill bg-info ms-2" (click)="detailsCustomer(customer)">
+              <i class="bi bi-info text-danger h5"></i>
             </button>
 
           </td>

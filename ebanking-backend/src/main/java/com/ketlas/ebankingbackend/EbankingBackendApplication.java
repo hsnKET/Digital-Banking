@@ -11,11 +11,13 @@ import com.ketlas.ebankingbackend.mappers.BankAccountMapperImpl;
 import com.ketlas.ebankingbackend.repositories.AccountOperationRepository;
 import com.ketlas.ebankingbackend.repositories.BankAccountRepository;
 import com.ketlas.ebankingbackend.repositories.CustomerRepository;
+import com.ketlas.ebankingbackend.security.service.SecurityService;
 import com.ketlas.ebankingbackend.services.BankAccountService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Date;
 import java.util.List;
@@ -118,4 +120,28 @@ public class EbankingBackendApplication {
 
     }
 
+    @Bean
+    BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+
+   @Bean
+    CommandLineRunner saveUsers(SecurityService securityService){
+        return args ->{
+            securityService.saveNewUser("ketlas","1234","1234");
+            securityService.saveNewUser("ahmed","1234","1234");
+            securityService.saveNewUser("mohammed","1234","1234");
+
+            securityService.saveNewRole("USER","");
+            securityService.saveNewRole("ADMIN","");
+
+            securityService.addRoleToUser("ketlas","USER");
+            securityService.addRoleToUser("ketlas","ADMIN");
+            securityService.addRoleToUser("mohammed","USER");
+            securityService.addRoleToUser("ahmed","USER");
+
+
+        };
+    }
 }
