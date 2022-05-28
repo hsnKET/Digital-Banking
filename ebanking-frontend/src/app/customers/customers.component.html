@@ -29,6 +29,7 @@
           <td>ID</td>
           <td>Name</td>
           <td>Email</td>
+          <td>Actions</td>
         </tr>
         </thead>
 
@@ -38,6 +39,12 @@
           <td>{{customer.id}}</td>
           <td>{{customer.name}}</td>
           <td>{{customer.email}}</td>
+          <td >
+            <button class=" border-0 rounded-pill bg-info " (click)="deleteCustomer(customer)">
+              <i class="bi bi-trash-fill text-danger h5"></i>
+            </button>
+
+          </td>
         </tr>
 
         </tbody>

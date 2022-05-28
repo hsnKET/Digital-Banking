@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Customer {
     @Column(unique = true)
     private String email;
     @OneToMany(mappedBy = "customer")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<BankAccount> bankAccounts;
 }

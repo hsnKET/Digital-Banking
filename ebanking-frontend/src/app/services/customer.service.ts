@@ -23,9 +23,13 @@ export class CustomerService {
       .get<Array<Customer>>(environment.baseUrl+"customers/search?keyword="+keyword);
   }
 
-  saveCustomers(customer:Customer):Observable<Customer>{
+  addCustomers(customer:Customer):Observable<Customer>{
     return this.http
       .post<Customer>(environment.baseUrl+"customers/",customer);
   }
 
+  deleteCustomers(id:number){
+    return this.http
+      .delete(environment.baseUrl+"customers/"+id);
+  }
 }
