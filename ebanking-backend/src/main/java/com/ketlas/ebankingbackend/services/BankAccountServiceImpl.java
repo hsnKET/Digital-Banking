@@ -192,23 +192,19 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         BankAccount bankAccount=bankAccountRepository.findById(accountId).orElse(null);
         if(bankAccount==null) throw new BankAccountNotFoundException("Account not Found");
-
-        Page<AccountOperation> accountOperationPage =
-                accountOperationRepository
-                        .findByBankAccountIdOrderByOperationDateDesc(accountId,PageRequest.of(page,size));
-
+        Page<AccountOperation> accountOperations = accountOperationRepository
+                .findByBankAccountIdOrderByOperationDateDesc(accountId, PageRequest.of(page, size));
         AccountHistoryDTO accountHistoryDTO=new AccountHistoryDTO();
-        List<AccountOperationDTO> accountOperationDTOS = accountOperationPage.getContent()
+        List<AccountOperationDTO> accountOperationDTOS = accountOperations.getContent()
                 .stream()
-                .map(accountOperation -> bankAccountMapper.fromAccountOperation(accountOperation)).collect(Collectors.toList());
-
+                .map(op -> bankAccountMapper.fromAccountOperation(op))
+                .collect(Collectors.toList());
         accountHistoryDTO.setAccountOperationDTOS(accountOperationDTOS);
-        accountHistoryDTO.setAccountId(accountId);
+        accountHistoryDTO.setAccountId(bankAccount.getId());
         accountHistoryDTO.setBalance(bankAccount.getBalance());
         accountHistoryDTO.setCurrentPage(page);
         accountHistoryDTO.setPageSize(size);
-        accountHistoryDTO.setTotalPages(accountHistoryDTO.getTotalPages());
-
+        accountHistoryDTO.setTotalPages(accountOperations.getTotalPages());
         return accountHistoryDTO;
     }
 

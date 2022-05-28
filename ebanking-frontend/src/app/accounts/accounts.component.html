@@ -50,6 +50,12 @@
               </tbody>
             </table>
 
+            <ul class="nav nav-pills float-end">
+              <li *ngFor="let item of [].constructor(accountDetails.totalPages);let page=index">
+                <a [ngClass]="page==currentPage?'btn-info':'btn-outline-info'" (click)="toPage(page)" class="btn  ms-1 mt-1">{{page}}</a>
+              </li>
+            </ul>
+
 
           </ng-container>
 

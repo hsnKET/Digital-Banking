@@ -36,4 +36,10 @@ export class AccountsComponent implements OnInit {
     );
   }
 
+  toPage(page: number) {
+    this.currentPage=page;
+    this.searchAccountByID();
+  }
+
+
 }
