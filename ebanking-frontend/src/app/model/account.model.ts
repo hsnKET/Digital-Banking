@@ -4,10 +4,10 @@ export interface AccountDetails {
   currentPage:          number;
   totalPages:           number;
   pageSize:             number;
-  accountOperationDTOS: AccountOperation[];
+  accountOperationDTOS: accountOperationDTOS[];
 }
 
-export interface AccountOperation {
+export interface accountOperationDTOS {
   id:            number;
   operationDate: Date;
   amount:        number;

@@ -16,7 +16,7 @@
           </form>
 
           <ng-container *ngIf="accountObservable | async as accountDetails">
-            <table class="table table table-bordered mt-2">
+            <table class="table table-bordered mt-3">
                 <thead>
                   <tr>
                     <th scope="col">Account ID</th>
@@ -30,6 +30,27 @@
                   </tr>
                 </tbody>
             </table>
+
+            <table class="table table-bordered mt-3">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let op of accountDetails.accountOperationDTOS">
+                <td>{{op.id}}</td>
+                <td>{{op.operationDate | date : 'dd-MM-yyyy : HH-mm-ss'}}</td>
+                <td>{{op.type}}</td>
+                <td class="text-end">{{op.amount | number : '1.2-2'}}</td>
+              </tr>
+              </tbody>
+            </table>
+
+
           </ng-container>
 
 
