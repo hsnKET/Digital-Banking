@@ -1,9 +1,8 @@
 package com.ketlas.ebankingbackend.web;
 
 
-import com.ketlas.ebankingbackend.dtos.AccountHistoryDTO;
-import com.ketlas.ebankingbackend.dtos.AccountOperationDTO;
-import com.ketlas.ebankingbackend.dtos.BankAccountDTO;
+import com.ketlas.ebankingbackend.dtos.*;
+import com.ketlas.ebankingbackend.exceptions.BalanceNotSufficientException;
 import com.ketlas.ebankingbackend.exceptions.BankAccountNotFoundException;
 import com.ketlas.ebankingbackend.services.BankAccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +42,17 @@ public class BankAccountRestAPI {
             @RequestParam(name = "page",defaultValue = "0") int page,
             @RequestParam(name = "size",defaultValue = "5") int size) throws BankAccountNotFoundException {
         return bankAccountService.getAccountHistory(accountId,page,size);
+    }
+
+    @PostMapping("/accounts/debit")
+    public DebitDTO debit(@RequestBody DebitDTO debitDTO) throws BankAccountNotFoundException, BalanceNotSufficientException {
+        this.bankAccountService.debit(debitDTO.getAccountId(),debitDTO.getAmount(),debitDTO.getDescription());
+        return debitDTO;
+    }
+    @PostMapping("/accounts/credit")
+    public CreditDTO credit(@RequestBody CreditDTO creditDTO) throws BankAccountNotFoundException, BalanceNotSufficientException {
+        this.bankAccountService.credit(creditDTO.getAccountId(),creditDTO.getAmount(),creditDTO.getDescription());
+        return creditDTO;
     }
 
 
