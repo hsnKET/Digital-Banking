@@ -68,7 +68,7 @@ export class CustomersComponent implements OnInit {
             }))
         },
         error:(err)=>{
-
+            console.log(err)
         }
       })
   }

@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins="http://localhost:4200")
 public class AccountRestController{
     private SecurityService accountService;
     public AccountRestController(SecurityService accountService){
@@ -52,8 +52,28 @@ public class AccountRestController{
         accountService.addRoleToUser(roleUserForm.getUsername(),roleUserForm.getRoleName());
     }
 
+    @CrossOrigin("*")
+    @PostMapping(path="/login")
+    public void login(@RequestBody AppUser appUser){
+    }
 
 
+    @PostMapping(path="/findUser/{token}")
+    public AppUser getUserByToken(@PathVariable("token") String token,
+                               HttpServletRequest request){
+        AppUser appUser = null;
+        String auhToken=token;//request.getHeader(JWTUtil.AUTH_HEADER);
+        if(auhToken!=null && auhToken.startsWith(JWTUtil.PREFIX)) {
+            String jwt = auhToken.substring(JWTUtil.PREFIX.length());
+            Algorithm algorithm = Algorithm.HMAC256(JWTUtil.SECRET);
+            JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+            DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
+            String username = decodedJWT.getSubject();
+            appUser = accountService.loadUserByUsername(username);
+        }
+        return appUser;
+
+    }
     @GetMapping(path="/refreshToken")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String auhToken=request.getHeader(JWTUtil.AUTH_HEADER);
@@ -67,7 +87,7 @@ public class AccountRestController{
                 AppUser appUser = accountService.loadUserByUsername(username);
                 String jwtAccessToken = JWT.create()
                         .withSubject(appUser.getUsername())
-                        .withExpiresAt(new Date(JWTUtil.EXPIRE_ACCESS_TOKEN))
+                        .withExpiresAt(new Date(System.currentTimeMillis()+JWTUtil.EXPIRE_ACCESS_TOKEN))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", appUser.getAppRoles().stream().map(r -> r.getRoleName()).collect(Collectors.toList()))
                         .sign(algorithm);

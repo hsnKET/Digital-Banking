@@ -71,6 +71,22 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
     @Override
     public void deleteCustomer(Long customerId){
+
+        Customer customer = customerRepository.findById(customerId).orElse(null);
+        if (customer == null)
+            throw new RuntimeException("Customer Not found");
+        //operation
+        List<BankAccount> bankAccounts = bankAccountRepository.findBankAccountByCustomer(customer);
+
+        for (BankAccount b:bankAccounts) {
+            List<AccountOperation> accountOperations = b.getAccountOperations();
+            for (AccountOperation ap:accountOperations ) {
+                accountOperationRepository.deleteById(ap.getId());
+            }
+            accountOperations.clear();
+            bankAccountRepository.deleteById(b.getId());
+        }
+        bankAccounts.clear();
         customerRepository.deleteById(customerId);
     }
 
@@ -214,5 +230,37 @@ public class BankAccountServiceImpl implements BankAccountService {
         List<Customer> customers=customerRepository.searchCustomer(keyword);
         List<CustomerDTO> customerDTOS = customers.stream().map(cust -> bankAccountMapper.fromCustomer(cust)).collect(Collectors.toList());
         return customerDTOS;
+    }
+
+    @Override
+    public List<BankAccountDTO> customerAccount(Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElse(null);
+        if (customer == null)
+            throw new RuntimeException("Customer Not found");
+
+        List<BankAccount> bankAccounts=bankAccountRepository.findBankAccountByCustomer(customer);
+        List<BankAccountDTO> bankAccountDTOS = bankAccounts.stream().map(bankAccount -> {
+            if (bankAccount instanceof SavingAccount) {
+                SavingAccount savingAccount = (SavingAccount) bankAccount;
+                return bankAccountMapper.fromSavingBankAccount(savingAccount);
+            } else {
+                CurrentAccount currentAccount = (CurrentAccount) bankAccount;
+                return bankAccountMapper.fromCurrentBankAccount(currentAccount);
+            }
+        }).collect(Collectors.toList());
+        return bankAccountDTOS;
+    }
+
+    @Override
+    public void deleteBankAccount(String id) {
+        BankAccount bankAccount = bankAccountRepository.findById(id).orElse(null);
+        if (bankAccount == null)
+            throw new RuntimeException("Bank Not found");
+        List<AccountOperation> accountOperations = bankAccount.getAccountOperations();
+        for (AccountOperation ap:accountOperations ) {
+            accountOperationRepository.deleteById(ap.getId());
+        }
+        accountOperations.clear();
+        bankAccountRepository.deleteById(id);
     }
 }

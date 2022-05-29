@@ -1,6 +1,7 @@
 package com.ketlas.ebankingbackend.web;
 
 
+import com.ketlas.ebankingbackend.dtos.BankAccountDTO;
 import com.ketlas.ebankingbackend.dtos.CustomerDTO;
 import com.ketlas.ebankingbackend.exceptions.CustomerNotFoundException;
 import com.ketlas.ebankingbackend.services.BankAccountService;
@@ -41,7 +42,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/customers/{id}")
-    public void deleteCustomer(@PathVariable("id") Long id){
+    public void deleteCustomer(@PathVariable Long id){
         bankAccountService.deleteCustomer(id);
     }
 
@@ -49,5 +50,10 @@ public class CustomerController {
     @GetMapping("/customers/search")
     public List<CustomerDTO> searchCustomers(@RequestParam(name = "keyword",defaultValue = "") String keyword){
         return bankAccountService.searchCustomers("%"+keyword+"%");
+    }
+
+    @GetMapping("/customers/accounts")
+    public List<BankAccountDTO> customerAccount(@RequestParam("id") Long id){
+        return bankAccountService.customerAccount(id);
     }
 }

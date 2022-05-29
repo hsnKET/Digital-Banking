@@ -53,7 +53,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 catch(Exception e){
                     System.out.println(e.getMessage());
                     response.setHeader("error-message",e.getMessage());
+                    response.setHeader("tkn",authorizationToken);
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    System.out.println("token : "+authorizationToken);
                 }
 
             }
@@ -66,4 +68,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 
     }
+
+
 }

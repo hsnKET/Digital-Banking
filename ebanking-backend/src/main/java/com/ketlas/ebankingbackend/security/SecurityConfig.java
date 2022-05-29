@@ -10,11 +10,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import javax.sql.DataSource;
 
@@ -34,20 +39,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //http.formLogin();
-        //http.cors().disable();
+
+
         http.csrf().disable();
+        http.formLogin().disable().cors(httpSecurityCorsConfigurer -> {
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+            corsConfiguration.addAllowedMethod("DELETE");
+            corsConfiguration.addAllowedMethod("PUT");
+            corsConfiguration.addAllowedMethod("POST");
+            corsConfiguration.addAllowedMethod("GET");
+            source.registerCorsConfiguration("/**",  corsConfiguration);
+            httpSecurityCorsConfigurer.configurationSource(source);
+        });
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.headers().frameOptions().disable();
-        http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
-        http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/**").hasAuthority("ADMIN");
+
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/refreshToken/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/login/**").permitAll();
+        http.authorizeRequests().antMatchers("/login/**").permitAll();
+        http.authorizeRequests().antMatchers("/customers/**").hasAnyAuthority("USER","ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/customers/**").hasAnyAuthority("USER","ADMIN");
 
         http.authorizeRequests().anyRequest().authenticated();
 
 
+        http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
+        http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
     }
+
 
 
     @Bean
@@ -55,6 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
     }
+
 
 
 }

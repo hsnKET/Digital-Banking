@@ -25,6 +25,11 @@ public class BankAccountRestAPI {
         return bankAccountService.getBankAccount(id);
     }
 
+    @DeleteMapping("/accounts/{id}")
+    void  deleteBankAccount(@PathVariable("id") String id)  {
+        bankAccountService.deleteBankAccount(id);
+    }
+
     @GetMapping("/accounts")
     List<BankAccountDTO> listAccounts(){
         return bankAccountService.bankAccountList();

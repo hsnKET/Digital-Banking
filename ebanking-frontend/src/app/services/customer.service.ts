@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Customer} from "../model/customer.model";
 import {environment} from "../../environments/environment";
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +19,8 @@ export class CustomerService {
 
   }
   getCustomers():Observable<Array<Customer>>{
+
+
     return this.http.get<Array<Customer>>(environment.baseUrl+"customers");
   }
 
@@ -30,6 +36,6 @@ export class CustomerService {
 
   deleteCustomers(id:number){
     return this.http
-      .delete(environment.baseUrl+"customers/"+id);
+      .delete(environment.baseUrl+"customers/"+id)
   }
 }

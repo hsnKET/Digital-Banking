@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ketlas.ebankingbackend.security.JWTUtil;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -32,11 +33,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        System.out.println(username);
-        System.out.println(password);
-        UsernamePasswordAuthenticationToken authenticationToken=
+        String username , password ;
+        try {
+            Map<String, String> requestMap = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+            username = requestMap.get("username");
+            password = requestMap.get("password");
+        } catch (IOException e) {
+            throw new AuthenticationServiceException(e.getMessage(), e);
+        }
+
+        UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username,password);
         return authenticationManager.authenticate(authenticationToken);
     }
@@ -48,20 +54,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Algorithm algo1 = Algorithm.HMAC256(JWTUtil.SECRET);
         String jwtAccessToken= JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(JWTUtil.EXPIRE_ACCESS_TOKEN))
+                .withExpiresAt(new Date(System.currentTimeMillis()+JWTUtil.EXPIRE_ACCESS_TOKEN))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles",user.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
                         .sign(algo1);
 
         String jwtRefreshTokenToken=JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(JWTUtil.EXPIRE_REFRESH_TOKEN))
+                .withExpiresAt(new Date(System.currentTimeMillis()+JWTUtil.EXPIRE_REFRESH_TOKEN))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algo1);
 
         Map<String,String> idToken=new HashMap<>();
-        idToken.put("access-token",jwtAccessToken);
-        idToken.put("refresh-token",jwtRefreshTokenToken);
+        idToken.put("access_token",jwtAccessToken);
+        idToken.put("refresh_token",jwtRefreshTokenToken);
         response.setContentType("application/json");
         new ObjectMapper().writeValue(response.getOutputStream(),idToken);
     }
