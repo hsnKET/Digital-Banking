@@ -64,6 +64,11 @@ public class BankAccountRestAPI {
         return bankAccountService.getAccountHistory(accountId,page,size);
     }
 
+    @GetMapping("/accounts/{accountId}/operationss")
+    List<AccountOperationDTO> getAccountOperations(@PathVariable String accountId) throws BankAccountNotFoundException {
+        return bankAccountService.getAccountOperations(accountId);
+    }
+
     @PostMapping("/accounts/debit")
     public DebitDTO debit(@RequestBody DebitDTO debitDTO) throws BankAccountNotFoundException, BalanceNotSufficientException {
         this.bankAccountService.debit(debitDTO.getAccountId(),debitDTO.getAmount(),debitDTO.getDescription());

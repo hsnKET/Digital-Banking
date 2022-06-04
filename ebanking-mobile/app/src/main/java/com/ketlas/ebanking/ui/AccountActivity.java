@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -86,6 +87,8 @@ public class AccountActivity extends AppCompatActivity implements AccountListene
 
     @Override
     public void onAccountClicked(int pos) {
-
+        Intent i = new Intent(AccountActivity.this,OperationActivity.class);
+        i.putExtra("id",accounts.get(pos).getId());
+        startActivity(i);
     }
 }

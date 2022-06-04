@@ -242,6 +242,19 @@ public class BankAccountServiceImpl implements BankAccountService {
         return accountHistoryDTO;
     }
 
+    @Override
+    public List<AccountOperationDTO> getAccountOperations(String accountId) throws BankAccountNotFoundException {
+        BankAccount bankAccount=bankAccountRepository.findById(accountId).orElse(null);
+        if(bankAccount==null) throw new BankAccountNotFoundException("Account not Found");
+        List<AccountOperation> accountOperations = accountOperationRepository
+                .findByBankAccountId(accountId);
+        List<AccountOperationDTO> accountOperationDTOS = accountOperations
+                .stream()
+                .map(op -> bankAccountMapper.fromAccountOperation(op))
+                .collect(Collectors.toList());
+        return accountOperationDTOS;
+    }
+
 
     @Override
     public List<CustomerDTO> searchCustomers(String keyword) {
