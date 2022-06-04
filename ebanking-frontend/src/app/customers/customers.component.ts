@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CustomerService} from "../services/customer.service";
 import {catchError, map, Observable, throwError} from "rxjs";
-import {Customer} from "../model/customer.model";
+import {Customer, CustomerPage} from "../model/customer.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
 
@@ -13,10 +13,13 @@ import {Router} from "@angular/router";
 })
 export class CustomersComponent implements OnInit {
 
-  customers !: Observable<Array<Customer>>;
+  customersPage !: CustomerPage;
+  customers !: Customer[];
   errorMessage !: string;
   MyformGroup !:FormGroup;
-
+  currentPage :number = 0;
+  pageSize :number = 2;
+  totalPage !:number;
 
   constructor(private customerService:CustomerService,
               private fb:FormBuilder,
@@ -29,31 +32,26 @@ export class CustomersComponent implements OnInit {
       keyword:this.fb.control("")
     });
 
-
-    this.customers =
-      this
-        .customerService
-        .getCustomers()
-        .pipe(
-          catchError(err => {
-            this.errorMessage = err.message;
-            return throwError(err);
-          })
-        );
+    this.searchCustomer()
 
   }
 
   searchCustomer() {
 
     let kw = this.MyformGroup?.value.keyword;
-    this.customers = this
-      .customerService.searchCustomers(kw)
-      .pipe(
-        catchError(err => {
+    this
+      .customerService.searchCustomers(kw,this.currentPage,this.pageSize)
+      .subscribe(value => {
+          this.customersPage = value;
+          this.customers = this.customersPage.customerDTOS;
+          this.currentPage = this.customersPage.currentPage;
+          this.pageSize = this.customersPage.pageSize;
+          this.totalPage = this.customersPage.totalPages;
+        },
+        err => {
           this.errorMessage = err.message;
           return throwError(err);
         })
-      );
 
   }
 
@@ -62,10 +60,7 @@ export class CustomersComponent implements OnInit {
       .subscribe({
         next:(reps)=>{
           this.customers = this.customers
-            .pipe(map(data=>{
-              data.slice(data.indexOf(cutomer),1)
-              return data;
-            }))
+            .slice(this.customers.indexOf(cutomer))
         },
         error:(err)=>{
             console.log(err)
@@ -75,5 +70,10 @@ export class CustomersComponent implements OnInit {
 
   detailsCustomer(customer: Customer) {
     this.router.navigateByUrl("/customer-accounts/"+customer.id,{state :customer});
+  }
+
+  toPage(page: number) {
+    this.currentPage=page;
+    this.searchCustomer();
   }
 }

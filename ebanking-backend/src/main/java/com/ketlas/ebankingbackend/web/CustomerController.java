@@ -3,6 +3,7 @@ package com.ketlas.ebankingbackend.web;
 
 import com.ketlas.ebankingbackend.dtos.BankAccountDTO;
 import com.ketlas.ebankingbackend.dtos.CustomerDTO;
+import com.ketlas.ebankingbackend.dtos.CustomersPageDTO;
 import com.ketlas.ebankingbackend.exceptions.CustomerNotFoundException;
 import com.ketlas.ebankingbackend.services.BankAccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,9 +48,13 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/customers/search")
-    public List<CustomerDTO> searchCustomers(@RequestParam(name = "keyword",defaultValue = "") String keyword){
-        return bankAccountService.searchCustomers("%"+keyword+"%");
+    @GetMapping("/customers/searchs")
+    public CustomersPageDTO searchCustomers(
+            @RequestParam(name = "keyword",defaultValue = "") String keyword,
+            @RequestParam(name = "size",defaultValue = "10") int size,
+            @RequestParam(name = "page",defaultValue = "0") int page
+            ){
+        return bankAccountService.searchCustomers(keyword,page,size);
     }
 
     @GetMapping("/customers/accounts")

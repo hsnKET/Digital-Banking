@@ -55,6 +55,24 @@ public class BankAccountServiceImpl implements BankAccountService {
         return customerDTOS;
     }
 
+
+    @Override
+    public CustomersPageDTO searchCustomers(String name, int page, int size) {
+        Page<Customer> customers = customerRepository.searchCustomers("%"+name+"%",PageRequest.of(page,size));
+        List<CustomerDTO> customerDTOS = customers.getContent()
+                .stream()
+                .map(customer -> bankAccountMapper.fromCustomer(customer))
+                .collect(Collectors.toList());
+
+        CustomersPageDTO customersPageDTO = new CustomersPageDTO();
+        customersPageDTO.setCustomerDTOS(customerDTOS);
+        customersPageDTO.setCurrentPage(page);
+        customersPageDTO.setPageSize(size);
+        customersPageDTO.setTotalPages(customers.getTotalPages());
+
+        return customersPageDTO;
+    }
+
     @Override
     public CustomerDTO getCustomer(Long customerId) throws CustomerNotFoundException {
         Customer customer = customerRepository.findById(customerId)

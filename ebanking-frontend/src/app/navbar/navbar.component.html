@@ -1,33 +1,69 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Digital Banking</a>
+  <div class="container">
+
+    <a class="navbar-brand font-weight-bold" href="#">
+      Digital Banking
+    </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle"
+             href="#"
+             id="navbarDropdown"
+             role="button"
+             data-bs-toggle="dropdown"
+             aria-expanded="false">
+            <i class="bi bi-people-fill h4 m-2"></i>
+
             Customers
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" routerLink="/customers">Search</a></li>
-            <li><a class="dropdown-item" routerLink="/new-customer">Add</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="/customers">
+                <i class="bi bi-search h4 m-2"></i>
+                Search
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/new-customer">
+                <i class="bi bi-person-plus-fill h4 m-2"></i>
+                Add
+              </a></li>
           </ul>
         </li>
 
         <li class="nav-item">
           <a class="nav-link "
-             aria-current="page" routerLink="/accounts">Accounts</a>
+             aria-current="page" routerLink="/accounts">
+            <i class="bi bi-person-lines-fill h4 m-2"></i>
+            Accounts
+          </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link "
-             aria-current="page" routerLink="/login">Login</a>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item" *ngIf="!isLogin">
+          <a  class="nav-link btn btn-primary text-white"
+             aria-current="page" routerLink="/login">
+            <i class="bi bi-box-arrow-in-right h5"></i>
+            Login</a>
+        </li>
+
+        <li class="nav-item ms-3" *ngIf="isLogin">
+          <a (click)="logout()" class="nav-link btn btn-danger text-white"
+             aria-current="page">
+            <i class="bi bi-box-arrow-in-left h5"></i>
+            Logout
+          </a>
         </li>
 
       </ul>

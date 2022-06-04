@@ -4,6 +4,8 @@ import { TokenStorageService } from "../services/token-storage.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomerService} from "../services/customer.service";
 import {Router} from "@angular/router";
+import swal from 'sweetalert';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -35,9 +37,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
+    this.isLoggedIn = !!this.tokenStorage.getToken();
+    if (this.isLoggedIn) {
       this.roles = this.tokenStorage.getUser().appRoles;
+      this.router.navigateByUrl("/customers");
+
     }
   }
 
@@ -46,8 +50,14 @@ export class LoginComponent implements OnInit {
     this.authService.login(customer).subscribe({
       next:(data)=>{
         this.tokenStorage.saveToken(data.access_token);
-        this.tokenStorage.saveToken(data.access_token);
 
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Login successful',
+          showConfirmButton: false,
+          timer: 1500
+        })
 
         this.authService.findUser(data.access_token)
           .subscribe({
@@ -60,7 +70,7 @@ export class LoginComponent implements OnInit {
 
           this.isLoginFailed = false;
           this.isLoggedIn = true;
-          this.reloadPage();
+          window.location.reload();
 
 
       },

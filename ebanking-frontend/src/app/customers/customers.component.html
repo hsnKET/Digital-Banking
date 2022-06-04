@@ -5,7 +5,7 @@
     {{errorMessage}}
   </div>
 
-  <div class="card" *ngIf="customers | async">
+  <div class="card" *ngIf="customers">
     <div class="card-header">
       Customers
     </div>
@@ -34,7 +34,7 @@
         </thead>
 
         <tbody>
-        <tr *ngFor="let customer of customers | async">
+        <tr *ngFor="let customer of customers">
 
           <td>{{customer.id}}</td>
           <td>{{customer.name}}</td>
@@ -54,6 +54,13 @@
         </tbody>
 
       </table>
+
+      <ul class="nav nav-pills float-end">
+        <li *ngFor="let item of [].constructor(totalPage);let page=index">
+          <a [ngClass]="page==currentPage?'btn-info':'btn-outline-info'" (click)="toPage(page)" class="btn  ms-1 mt-1">{{page}}</a>
+        </li>
+      </ul>
+
     </div>
   </div>
 </div>

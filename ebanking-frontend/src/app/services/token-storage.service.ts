@@ -8,6 +8,7 @@ export class TokenStorageService {
   constructor() { }
   signOut(): void {
     window.sessionStorage.clear();
+    window.location.reload();
   }
   public saveToken(token: string): void {
     window.sessionStorage.removeItem(TOKEN_KEY);
@@ -26,5 +27,9 @@ export class TokenStorageService {
       return JSON.parse(user);
     }
     return {};
+  }
+
+  public  isLogin():boolean{
+    return !!this.getToken();
   }
 }

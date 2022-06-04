@@ -4,3 +4,12 @@ export interface Customer{
   name:string;
   email:string;
 }
+
+export interface CustomerPage{
+
+  currentPage:          number;
+  totalPages:           number;
+  pageSize:             number;
+  customerDTOS:        Customer[];
+
+}

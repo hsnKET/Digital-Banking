@@ -13,7 +13,6 @@ export class AuthInterceptor implements HttpInterceptor {
     let authReq = req;
     const token = this.token.getToken();
     if (token) {
-      console.log(token)
       req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
@@ -23,17 +22,13 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err) => {
         if (err.status === 401) {
-
-          console.log(401)
           this.router.navigateByUrl("/logout");
-
         }
         else if (err.status === 403) {
-
           this.router.navigateByUrl("/login");
-          //this.authService.login();
         }
         const error = err.error.message || err.statusText;
+        console.log(error)
         return throwError(error);
       })
     );

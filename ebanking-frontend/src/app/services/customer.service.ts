@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Customer} from "../model/customer.model";
+import {Customer, CustomerPage} from "../model/customer.model";
 import {environment} from "../../environments/environment";
 
 const httpOptions = {
@@ -18,15 +18,14 @@ export class CustomerService {
   ngOnInit(): void {
 
   }
-  getCustomers():Observable<Array<Customer>>{
+  getCustomers():Observable<CustomerPage>{
 
-
-    return this.http.get<Array<Customer>>(environment.baseUrl+"customers");
+    return this.http.get<CustomerPage>(environment.baseUrl+"customers/searchs");
   }
 
-  searchCustomers(keyword:String):Observable<Array<Customer>>{
+  searchCustomers(keyword:String,page?:number,size?:number):Observable<CustomerPage>{
     return this.http
-      .get<Array<Customer>>(environment.baseUrl+"customers/search?keyword="+keyword);
+      .get<CustomerPage>(environment.baseUrl+"customers/searchs?keyword="+keyword+"&page="+page+"&size="+size);
   }
 
   addCustomers(customer:Customer):Observable<Customer>{

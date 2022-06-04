@@ -22,6 +22,8 @@ public interface BankAccountService {
 
     abstract List<BankAccountDTO> bankAccountList();
 
+    CustomersPageDTO searchCustomers(String name, int page, int size);
+
     CustomerDTO getCustomer(Long customerId) throws CustomerNotFoundException;
 
     CustomerDTO updateCustomer(CustomerDTO customerDTO);
