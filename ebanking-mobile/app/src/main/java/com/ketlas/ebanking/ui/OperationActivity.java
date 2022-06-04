@@ -38,7 +38,7 @@ public class OperationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+        setContentView(R.layout.activity_operation);
 
         if (!getIntent().hasExtra("id"))
             finish();
@@ -46,7 +46,6 @@ public class OperationActivity extends AppCompatActivity {
 
 
         accountId=getIntent().getStringExtra("id");
-        setContentView(R.layout.activity_main);
 
         operationService = RetrofitClient.getClient(this).create(OperationService.class);
 
@@ -61,6 +60,7 @@ public class OperationActivity extends AppCompatActivity {
 
 
         btnGo = findViewById(R.id.btnGo);
+
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

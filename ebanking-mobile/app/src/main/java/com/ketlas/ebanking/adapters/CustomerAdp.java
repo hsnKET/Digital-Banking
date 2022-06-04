@@ -48,6 +48,17 @@ public class CustomerAdp extends RecyclerView.Adapter<CustomerAdp.ViewHolder>{
         this.context = context;
     }
 
+    public void removeItem(int position) {
+        customers.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Customer customer, int position) {
+        customers.add(position, customer);
+        notifyItemInserted(position);
+    }
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

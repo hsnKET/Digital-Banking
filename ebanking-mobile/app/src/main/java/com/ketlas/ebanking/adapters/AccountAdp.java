@@ -65,6 +65,16 @@ public class AccountAdp extends RecyclerView.Adapter<AccountAdp.ViewHolder>{
         return accounts.size();
     }
 
+    public void removeItem(int position) {
+        accounts.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Account account, int position) {
+        accounts.add(position, account);
+        notifyItemInserted(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView idAccountTv;
         private TextView createdAtTv;

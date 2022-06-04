@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EBanking">
         <activity
+            android:name=".ui.AddAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.AddCustomerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.AddOperationActivity"
             android:exported="false" />
         <activity
