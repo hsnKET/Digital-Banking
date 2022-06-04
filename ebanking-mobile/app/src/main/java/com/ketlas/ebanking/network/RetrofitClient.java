@@ -17,10 +17,10 @@ public class RetrofitClient {
 
     public static Retrofit getClient(Context context){
         if(retrofit == null){
-            sharedPreferenceManager = new SharedPreferenceManager(context);
+            sharedPreferenceManager = new SharedPreferenceManager();
 
             OkHttpClient okHttpClient = new OkHttpClient
-                    .Builder().addInterceptor(new OAuthInterceptor(context)).build();
+                    .Builder().addInterceptor(new OAuthInterceptor()).build();
 
             retrofit = new Retrofit.Builder()
                     .client(okHttpClient)

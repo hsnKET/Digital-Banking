@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,9 +19,13 @@ import com.ketlas.ebanking.network.TokenResponse;
 import com.ketlas.ebanking.network.UserLogin;
 import com.ketlas.ebanking.network.services.UserService;
 import com.ketlas.ebanking.util.AnimationManager;
+import com.ketlas.ebanking.util.Const;
 import com.ketlas.ebanking.util.SharedPreferenceManager;
 import com.ketlas.ebanking.util.ToastManager;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +46,8 @@ public class LogInActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         username = findViewById(R.id.username_tv);
         password = findViewById(R.id.password_tv);
-        sharedPreferenceManager = new SharedPreferenceManager(this);
+
+        sharedPreferenceManager = new SharedPreferenceManager();
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,20 +71,24 @@ public class LogInActivity extends AppCompatActivity {
                 .enqueue(new Callback<TokenResponse>() {
                     @Override
                     public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                        if (response.isSuccessful()){
 
-                        sharedPreferenceManager.putAccessToken(response.body().getAccess_token());
-                        sharedPreferenceManager.putRefreshToken(response.body().getRefresh_token());
-                        ToastManager.success(LogInActivity.this,(ViewGroup)splash_iv.getParent(),getString(R.string.msg_success_login));
-                        Intent i = new Intent(LogInActivity.this,MainActivity.class);
-                        i.putExtra("username",username.getText().toString());
-                        startActivity(i);
-                        finish();
-
+                            sharedPreferenceManager.putAccessToken(response.body().getAccess_token());
+                            sharedPreferenceManager.putRefreshToken(response.body().getRefresh_token());
+                            ToastManager.success(LogInActivity.this,(ViewGroup)splash_iv.getParent(),getString(R.string.msg_success_login));
+                            Intent i = new Intent(LogInActivity.this,MainActivity.class);
+                            i.putExtra("username",username.getText().toString());
+                            Const.ACCESS_TOKEN = sharedPreferenceManager.getAccessToken();
+                            Log.e(MainActivity.class.getCanonicalName(),Const.ACCESS_TOKEN);
+                            startActivity(i);
+                            finish();
+                        }else {
+                            System.out.println("error");
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<TokenResponse> call, Throwable t) {
-                        ToastManager.error(LogInActivity.this,(ViewGroup)splash_iv.getParent(),getString(R.string.msg_error_login));
 
                     }
                 });

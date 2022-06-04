@@ -1,7 +1,9 @@
 package com.ketlas.ebanking.module;
 
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
 
     private Long id;
     private String username;

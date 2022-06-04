@@ -3,6 +3,8 @@ package com.ketlas.ebanking.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.ketlas.ebanking.utils.MyApplication;
+
 public class SharedPreferenceManager {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
@@ -10,8 +12,8 @@ public class SharedPreferenceManager {
     private static final String ACCESS_TOKEN = "access_token";
     private static final String REFRESH_TOKEN = "refresh_token";
 
-    public SharedPreferenceManager(Context context){
-        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_NAME,Context.MODE_PRIVATE);
+    public SharedPreferenceManager(){
+        sharedPreferences = MyApplication.getAppContext().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
