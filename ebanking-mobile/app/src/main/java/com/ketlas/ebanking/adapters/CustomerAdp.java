@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ketlas.ebanking.R;
+import com.ketlas.ebanking.callbacks.CustomerListener;
 import com.ketlas.ebanking.module.Customer;
 
 import java.util.List;
@@ -19,6 +20,12 @@ public class CustomerAdp extends RecyclerView.Adapter<CustomerAdp.ViewHolder>{
 
     private List<Customer> customers;
     private Context context;
+
+    public void setCustomerListener(CustomerListener customerListener) {
+        this.customerListener = customerListener;
+    }
+
+    private CustomerListener customerListener;
 
     public CustomerAdp(List<Customer> customers, Context context) {
         this.customers = customers;
@@ -66,6 +73,14 @@ public class CustomerAdp extends RecyclerView.Adapter<CustomerAdp.ViewHolder>{
             super(itemView);
             this.username = itemView.findViewById(R.id.usernameTv);
             this.email = itemView.findViewById(R.id.emailTv);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (customerListener!=null)
+                    customerListener.onCustomerClicked(getAdapterPosition());
+                }
+            });
         }
 
         public void bind(Customer customer){

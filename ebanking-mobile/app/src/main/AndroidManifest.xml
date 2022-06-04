@@ -3,6 +3,7 @@
     package="com.ketlas.ebanking">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
@@ -11,9 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EBanking">
-        <activity android:name=".ui.LogInActivity"/>
-        <activity android:name=".ui.MainActivity"/>
-        <activity android:name="MainActivity"/>
+        <activity
+            android:name=".ui.AccountActivity"
+            android:exported="false" />
+        <activity android:name=".ui.LogInActivity" />
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".ui.SplashScreen"
             android:exported="true">

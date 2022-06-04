@@ -1,5 +1,6 @@
 package com.ketlas.ebanking.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ketlas.ebanking.R;
 import com.ketlas.ebanking.adapters.CustomerAdp;
+import com.ketlas.ebanking.callbacks.CustomerListener;
 import com.ketlas.ebanking.module.Customer;
 import com.ketlas.ebanking.network.RetrofitClient;
 import com.ketlas.ebanking.network.services.CustomerService;
@@ -29,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CustomerListener {
 
     private TextView sayHi;
     private RecyclerView recyclerView;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         customers = new ArrayList<>();
         customerAdp = new CustomerAdp(customers,this);
+        customerAdp.setCustomerListener(this);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -86,5 +89,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    @Override
+    public void onCustomerClicked(int pos) {
+        Intent i = new Intent(MainActivity.this,AccountActivity.class);
+        i.putExtra("id",(Long)customers.get(pos).getId());
+        startActivity(i);
     }
 }
