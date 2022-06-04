@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.LogInActivity">
+    <View
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/username_tv"
+        android:background="@drawable/bg_login_top"
+        android:layout_height="0dp"
+        android:layout_marginBottom="30dp"
+        android:layout_width="0dp"/>
+
+    <TextView
+        android:fontFamily="@font/helvetica_bold"
+        android:id="@+id/loginName"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/username_tv"
+        android:layout_centerHorizontal="true"
+        android:textSize="50sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginBottom="80dp"
+        android:layout_above="@id/username_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:text="@string/login" />
+
+    <EditText
+        android:fontFamily="@font/helvetica_bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:drawableStart="@drawable/ic_username"
+        style="@style/Theme.EditTextLogin"
+        android:id="@+id/username_tv"
+        android:layout_centerInParent="true"
+        android:hint="@string/username"
+        />
+
+    <EditText
+        android:fontFamily="@font/helvetica_bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username_tv"
+        app:layout_constraintVertical_bias=".1"
+        app:layout_constraintBottom_toTopOf="@id/loginBtn"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/ic_password"
+        style="@style/Theme.EditTextLogin"
+        android:id="@+id/password_tv"
+        android:layout_below="@id/username_tv"
+        android:layout_centerInParent="true"
+        android:hint="@string/password"
+ />
+
+    <androidx.appcompat.widget.AppCompatButton
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/Theme.ButtonLogin"
+        android:id="@+id/loginBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/login"/>
+
+    <ImageView
+        android:translationZ="10dp"
+        android:id="@+id/splash_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:visibility="gone" />
+    <View
+        app:layout_constraintTop_toBottomOf="@id/password_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg_login_bottom"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_height="0dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

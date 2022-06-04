@@ -1,1 +1,50 @@
-<p>new-account works!</p>
+<div class="container mt-2">
+  <div class="row">
+
+    <div class="col col-md-6 offset-3">
+      <div class="card" *ngIf="customerId">
+        <div class="card-header">Operations</div>
+        <div class="card-body">
+
+          <form [formGroup]="accountFromGroup" (ngSubmit)="handleAddAccount()" method="post">
+            <div class="row mb-3">
+
+              <label class="col-sm-3 form-label">Type </label>
+
+              <div class="col-sm-9">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" (click)="handleCurrentAccount()" formControlName="accountType" checked value="current">
+                  <label class="form-check-label">Current</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" (click)="handleSavingAccount()" formControlName="accountType" value="saving">
+                  <label class="form-check-label">Saving</label>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="row mb-3">
+              <label class="col-sm-3 form-label">Initial Balance </label>
+              <div class="col-sm-9">
+                <input type="text" formControlName="initialBalance" class="form-control">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label class="col-sm-3 form-label"> {{nametype}} </label>
+              <div class="col-sm-9">
+                <input type="text" formControlName="amountType" class="form-control">
+              </div>
+            </div>
+
+            <div class="d-grid mb-3">
+              <button class="btn btn-info">Add Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

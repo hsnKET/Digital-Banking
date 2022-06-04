@@ -7,6 +7,7 @@ import {CustomerAccountsComponent} from "./customer-accounts/customer-accounts.c
 import {LoginComponent} from "./login/login.component";
 import {LogoutComponent} from "./logout/logout.component";
 import {AuthGuard} from "./helpers/auth-guard";
+import {NewAccountComponent} from "./new-account/new-account.component";
 
 const routes: Routes = [
   {path:"customers",component:CustomersComponent,canActivate:[AuthGuard]},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path:"accounts/:id",component:AccountsComponent,canActivate:[AuthGuard]},
   {path:"login",component:LoginComponent},
   {path:"logout",component:LogoutComponent},
+  {path:"new-account/:id",component:NewAccountComponent},
 ];
 
 @NgModule({

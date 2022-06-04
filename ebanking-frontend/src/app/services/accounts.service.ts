@@ -16,6 +16,17 @@ export class AccountsService {
     return this.http.get<AccountDetails>(environment.baseUrl+"accounts/"+accountId+"/pageOperations?page="+page+"&size="+size);
   }
 
+  public addAccount(idCustomer : number, type:string,initialBalance:number,amountType:number):Observable<Accounts>{
+    return this.http.post<Accounts>(environment.baseUrl+"accounts/",
+      {
+              "idCustomer":idCustomer,
+              "type":type,
+              "initialBalance":initialBalance,
+              "amountType":amountType
+
+    });
+  }
+
   public deleteAccount(accountId : string){
     return this.http.delete(environment.baseUrl+"accounts/"+accountId);
   }

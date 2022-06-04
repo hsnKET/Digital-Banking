@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">E-Banking</string>
+    <string name="say_hello">Simple Splash!</string>
+    <string name="say_Hi">Hi </string>
+    <string name="login">LogIn</string>
+    <string name="msg_success_login">Auth successful</string>
+    <string name="msg_error_login">Your username or password is incorrect</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+</resources>

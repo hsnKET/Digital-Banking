@@ -2,8 +2,10 @@ package com.ketlas.ebankingbackend.web;
 
 
 import com.ketlas.ebankingbackend.dtos.*;
+import com.ketlas.ebankingbackend.entities.AccountAdd;
 import com.ketlas.ebankingbackend.exceptions.BalanceNotSufficientException;
 import com.ketlas.ebankingbackend.exceptions.BankAccountNotFoundException;
+import com.ketlas.ebankingbackend.exceptions.CustomerNotFoundException;
 import com.ketlas.ebankingbackend.services.BankAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,19 @@ public class BankAccountRestAPI {
     BankAccountDTO  getBankAccount(@PathVariable("id") String id) throws BankAccountNotFoundException {
         return bankAccountService.getBankAccount(id);
     }
+
+    @PostMapping("/accounts")
+    BankAccountDTO  addBankAccount(
+
+            @RequestBody AccountAdd accountAdd
+            ) throws CustomerNotFoundException {
+
+        if ("current".equalsIgnoreCase(accountAdd.getType())){
+            return bankAccountService.saveCurrentBankAccount(accountAdd.getInitialBalance(),accountAdd.getAmountType(),accountAdd.getIdCustomer());
+        }
+        return bankAccountService.saveSavingBankAccount(accountAdd.getInitialBalance(),accountAdd.getAmountType(),accountAdd.getIdCustomer());
+    }
+
 
     @DeleteMapping("/accounts/{id}")
     void  deleteBankAccount(@PathVariable("id") String id)  {
