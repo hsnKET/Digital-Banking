@@ -31,6 +31,7 @@
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".MainActivity" />
         <activity
+            android:theme="@style/Theme.TestSpashScreen"
             android:name=".ui.SplashScreen"
             android:exported="true">
             <intent-filter>

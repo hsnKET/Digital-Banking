@@ -56,15 +56,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/refreshToken/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/login/**").permitAll();
         http.authorizeRequests().antMatchers("/login/**").permitAll();
-        http.authorizeRequests().antMatchers("/customers/**").hasAnyAuthority("USER","ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/customers/**").hasAnyAuthority("USER","ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/customers/**").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/customers/**").hasAnyAuthority("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/customers/**").hasAnyAuthority("USER","ADMIN");
 
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/accounts/**").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/accounts/**").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/accounts/**").hasAnyAuthority("USER","ADMIN");
 
+        http.authorizeRequests().anyRequest().authenticated();
 
         http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

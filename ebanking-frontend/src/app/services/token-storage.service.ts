@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {User} from "../model/user.model";
 const TOKEN_KEY = 'auth-token-mine';
 const USER_KEY = 'auth-user-mine';
 @Injectable({
@@ -29,6 +30,18 @@ export class TokenStorageService {
     return {};
   }
 
+  public isAdmin():boolean{
+    let isAdm = false;
+
+    if (this.getUser() && this.getUser().appRoles){
+      (<User>this.getUser()).appRoles
+        .forEach(role => {
+          if (role.roleName=="ADMIN")
+            isAdm = true;
+        })
+    }
+    return isAdm;
+  }
   public  isLogin():boolean{
     return !!this.getToken();
   }

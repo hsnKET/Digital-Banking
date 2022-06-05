@@ -11,13 +11,14 @@ import Swal from "sweetalert2";
 export class NavbarComponent implements OnInit {
 
   isLogin = false;
-
+  isAdmin = false;
   constructor( private tokenStorage: TokenStorageService,
                private route:Router) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()){
       this.isLogin = true;
+      this.isAdmin=this.tokenStorage.isAdmin();
     }
 
     // if (this.isLogin){

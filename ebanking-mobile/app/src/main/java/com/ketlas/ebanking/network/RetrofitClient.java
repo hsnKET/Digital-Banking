@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit retrofit = null;
-    private static final String url = "http://10.0.2.2:c/";
+    private static final String url = "http://10.0.2.2:9999/";
     private static SharedPreferenceManager sharedPreferenceManager;
 
 

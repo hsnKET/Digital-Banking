@@ -33,7 +33,7 @@
               </a>
             </li>
             <li>
-              <a class="dropdown-item" routerLink="/new-customer">
+              <a *ngIf="isAdmin" class="dropdown-item" routerLink="/new-customer">
                 <i class="bi bi-person-plus-fill h4 m-2"></i>
                 Add
               </a></li>
@@ -55,8 +55,10 @@
           <a  class="nav-link btn btn-primary text-white"
              aria-current="page" routerLink="/login">
             <i class="bi bi-box-arrow-in-right h5"></i>
-            Login</a>
+            Login
+          </a>
         </li>
+
 
         <li class="nav-item ms-3" *ngIf="isLogin">
           <a (click)="logout()" class="nav-link btn btn-danger text-white"

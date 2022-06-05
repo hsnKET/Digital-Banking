@@ -41,7 +41,7 @@
         android:layout_marginBottom="40dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:text="@string/say_hello"
+        android:text="E-Banking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <ImageView

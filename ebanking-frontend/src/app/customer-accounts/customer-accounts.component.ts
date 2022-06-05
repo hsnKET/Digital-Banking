@@ -4,6 +4,7 @@ import {Customer} from "../model/customer.model";
 import {AccountsService} from "../services/accounts.service";
 import {catchError, map, Observable, throwError} from "rxjs";
 import {Accounts} from "../model/accounts-model";
+import {TokenStorageService} from "../services/token-storage.service";
 
 @Component({
   selector: 'app-customer-accounts',
@@ -16,13 +17,16 @@ export class CustomerAccountsComponent implements OnInit {
   customer! : Customer;
   accounts!:Observable<Array<Accounts>>;
   private errorMessage: any;
+  isAdmin: boolean=false;
   constructor(private route : ActivatedRoute,
               private accountService:AccountsService,
-              private router : Router) {
+              private router : Router,
+              private tokenStorage:TokenStorageService) {
     this.customer=this.router.getCurrentNavigation()?.extras.state as Customer;
   }
 
   ngOnInit(): void {
+    this.isAdmin=this.tokenStorage.isAdmin();
     this.customerId = this.route.snapshot.params['id'];
     this.accounts = this.accountService
       .getAccounts(this.customerId)

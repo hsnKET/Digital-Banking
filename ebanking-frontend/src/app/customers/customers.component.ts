@@ -5,6 +5,7 @@ import {catchError, map, Observable, throwError} from "rxjs";
 import {Customer, CustomerPage} from "../model/customer.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
+import {TokenStorageService} from "../services/token-storage.service";
 
 @Component({
   selector: 'app-customers',
@@ -20,13 +21,17 @@ export class CustomersComponent implements OnInit {
   currentPage :number = 0;
   pageSize :number = 2;
   totalPage !:number;
+  isAdmin: boolean = false;
 
   constructor(private customerService:CustomerService,
               private fb:FormBuilder,
-              private router : Router) {
+              private router : Router,
+              private tokenStorage:TokenStorageService) {
 
   }
   ngOnInit(): void {
+
+    this.isAdmin=this.tokenStorage.isAdmin();
 
     this.MyformGroup = this.fb.group({
       keyword:this.fb.control("")

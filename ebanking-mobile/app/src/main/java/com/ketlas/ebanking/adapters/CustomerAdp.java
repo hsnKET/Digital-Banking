@@ -95,8 +95,8 @@ public class CustomerAdp extends RecyclerView.Adapter<CustomerAdp.ViewHolder>{
         }
 
         public void bind(Customer customer){
-            this.username.setText(customer.getUsername());
-            this.username.setText(customer.getEmail());
+            this.username.setText(customer.getName());
+            this.email.setText(customer.getEmail());
         }
     }
 }

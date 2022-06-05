@@ -18,8 +18,8 @@ public class OAuthInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        String token="Bearer "+Const.ACCESS_TOKEN;
-        request = request.newBuilder().header("Authorization", token).build();
+//        String token="Bearer "+Const.ACCESS_TOKEN;
+        request = request.newBuilder().header("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYXNzYW4iLCJyb2xlcyI6WyJVU0VSIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6OTk5OS9sb2dpbiIsImV4cCI6MTY1NDY1Njc1MH0.tkn6ZpfMAy9-Xwm8PWM1ofr6Mo4AbX0yjgusyfrk_Pw").build();
         return chain.proceed(request);
     }
 }

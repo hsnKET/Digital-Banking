@@ -68,7 +68,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:hint="Over Draft"
-        android:inputType="textPassword" />
+        android:inputType="numberDecimal" />
 
     <!--button to register our new user-->
     <Button

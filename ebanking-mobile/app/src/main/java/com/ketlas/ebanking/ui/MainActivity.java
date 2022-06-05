@@ -165,4 +165,10 @@ public class MainActivity extends AppCompatActivity implements CustomerListener 
         i.putExtra("id",(Long)customers.get(pos).getId());
         startActivity(i);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        init();
+    }
 }

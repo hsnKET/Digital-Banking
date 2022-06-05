@@ -15,17 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ketlas.ebanking.R;
 import com.ketlas.ebanking.network.RetrofitClient;
-import com.ketlas.ebanking.network.TokenResponse;
-import com.ketlas.ebanking.network.UserLogin;
+import com.ketlas.ebanking.network.model.TokenResponse;
+import com.ketlas.ebanking.network.model.UserLogin;
 import com.ketlas.ebanking.network.services.UserService;
 import com.ketlas.ebanking.util.AnimationManager;
 import com.ketlas.ebanking.util.Const;
 import com.ketlas.ebanking.util.SharedPreferenceManager;
 import com.ketlas.ebanking.util.ToastManager;
 
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

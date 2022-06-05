@@ -62,7 +62,7 @@ public class AccountRestController{
     public AppUser getUserByToken(@PathVariable("token") String token,
                                HttpServletRequest request){
         AppUser appUser = null;
-        String auhToken=token;//request.getHeader(JWTUtil.AUTH_HEADER);
+        String auhToken = request.getHeader(JWTUtil.AUTH_HEADER);
         if(auhToken!=null && auhToken.startsWith(JWTUtil.PREFIX)) {
             String jwt = auhToken.substring(JWTUtil.PREFIX.length());
             Algorithm algorithm = Algorithm.HMAC256(JWTUtil.SECRET);

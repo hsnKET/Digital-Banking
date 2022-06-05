@@ -6,6 +6,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Customer} from "../model/customer.model";
 import {Accounts} from "../model/accounts-model";
+import {TokenStorageService} from "../services/token-storage.service";
 
 @Component({
   selector: 'app-accounts',
@@ -22,12 +23,14 @@ export class AccountsComponent implements OnInit {
   errorMessage! :string ;
   private accountId: any;
   private account: Accounts;
+  isAdmin: boolean=false;
 
 
   constructor(private fb: FormBuilder,
               private accountService: AccountsService,
               private route : ActivatedRoute,
-              private router:Router) {
+              private router:Router,
+              private tokenStorage:TokenStorageService) {
 
     this.account=this.router.getCurrentNavigation()?.extras.state as Accounts;
 
@@ -35,7 +38,7 @@ export class AccountsComponent implements OnInit {
 
   ngOnInit(): void {
     //
-
+    this.isAdmin=this.tokenStorage.isAdmin();
     this.accountId = this.route.snapshot.params['id'];
 
 

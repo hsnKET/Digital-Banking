@@ -60,7 +60,6 @@ public class AccountActivity extends AppCompatActivity implements AccountListene
                 Intent i = new Intent(AccountActivity.this,AddAccountActivity.class);
                 i.putExtra("id",customerID);
                 startActivity(i);
-                Toast.makeText(AccountActivity.this, "clicked", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -170,5 +169,11 @@ public class AccountActivity extends AppCompatActivity implements AccountListene
         Intent i = new Intent(AccountActivity.this,OperationActivity.class);
         i.putExtra("id",accounts.get(pos).getId());
         startActivity(i);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        init();
     }
 }

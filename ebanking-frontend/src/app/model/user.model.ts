@@ -3,5 +3,13 @@ export interface User{
   username:string;
   password:string;
   active:boolean;
-  roles:[]
+  appRoles:appRole[]
 }
+
+export interface appRole{
+  roleId:number;
+  roleName:string;
+  description:string;
+
+}
+

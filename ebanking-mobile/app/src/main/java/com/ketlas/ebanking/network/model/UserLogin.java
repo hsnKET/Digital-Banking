@@ -1,4 +1,4 @@
-package com.ketlas.ebanking.network;
+package com.ketlas.ebanking.network.model;
 
 public class UserLogin {
 

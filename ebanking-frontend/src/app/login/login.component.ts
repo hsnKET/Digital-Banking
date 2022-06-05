@@ -64,13 +64,14 @@ export class LoginComponent implements OnInit {
             next:user => {
               this.tokenStorage.saveUser(user);
               this.roles = this.tokenStorage.getUser().appRoles;
+              console.log(user.appRoles)
 
             }
           })
 
           this.isLoginFailed = false;
           this.isLoggedIn = true;
-          window.location.reload();
+        window.location.reload()
 
 
       },

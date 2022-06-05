@@ -40,7 +40,6 @@ public class AddAccountActivity extends AppCompatActivity {
 //        if (!getIntent().hasExtra("id"))
 //            finish();
 
-        Toast.makeText(this, "xx", Toast.LENGTH_SHORT).show();
 
         customerID=getIntent().getLongExtra("id",-1);
 

@@ -133,16 +133,14 @@ public class EbankingBackendApplication {
     CommandLineRunner saveUsers(SecurityService securityService){
         return args ->{
             securityService.saveNewUser("ketlas","1234","1234");
-            securityService.saveNewUser("ahmed","1234","1234");
-            securityService.saveNewUser("mohammed","1234","1234");
+            securityService.saveNewUser("hassan","1234","1234");
 
             securityService.saveNewRole("USER","");
             securityService.saveNewRole("ADMIN","");
 
             securityService.addRoleToUser("ketlas","USER");
+            securityService.addRoleToUser("hassan","USER");
             securityService.addRoleToUser("ketlas","ADMIN");
-            securityService.addRoleToUser("mohammed","USER");
-            securityService.addRoleToUser("ahmed","USER");
 
 
         };
